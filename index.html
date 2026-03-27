@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Query Builder</title>
+    <script type="module" src="/src/assets/js/app.js"></script>
+  </head>
+  <body class="bg-slate-100 text-slate-900">
+    <main class="mx-auto max-w-5xl p-6">
+      <form id="queryForm" class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h1 class="mb-4 text-2xl font-bold">Préparer la query produit</h1>
+
+        <section class="space-y-3">
+          <h2 class="text-lg font-semibold">Champs de base</h2>
+
+          <label class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              class="query-field"
+              data-group="product"
+              data-field-query="sku"
+            />
+            <span>sku</span>
+          </label>
+
+          <label class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              class="query-field"
+              data-group="product"
+              data-field-query="name"
+            />
+            <span>name</span>
+          </label>
+
+          <label class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              class="query-field"
+              data-group="product"
+              data-field-query="description { html }"
+            />
+            <span>description</span>
+          </label>
+
+          <label class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              class="query-field"
+              data-group="product"
+              data-field-query="short_description { html }"
+            />
+            <span>short_description</span>
+          </label>
+
+          <label class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              class="query-field"
+              data-group="product"
+              data-field-query="canonical_url"
+            />
+            <span>canonical_url</span>
+          </label>
+
+          <label class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              class="query-field"
+              data-group="product"
+              data-field-query="image { url }"
+            />
+            <span>image</span>
+          </label>
+
+          <label class="flex items-center gap-3">
+            <input
+              type="checkbox"
+              class="query-field"
+              data-group="product"
+              data-field-query="price_range { minimum_price { final_price { value currency } regular_price { value currency } } }"
+            />
+            <span>price_range</span>
+          </label>
+        </section>
+
+        <div class="mt-6">
+          <button
+            type="submit"
+            class="rounded-xl bg-slate-900 px-4 py-2 text-white hover:bg-slate-700"
+          >
+            Générer / envoyer
+          </button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
