@@ -1,5 +1,6 @@
 import '../../style.css';
 import getProductChecked from './getProductChecked';
+import queryBuilder from './queryBuilder';
 
 const form = document.getElementById('queryForm');
 
@@ -17,5 +18,8 @@ function handleSubmit(event) {
     arrayProducts.push('sku', 'name');
   }
 
+  const query = queryBuilder(arrayProducts);
+
   console.log('test function get', arrayProducts);
+  console.log('test query', query);
 }
