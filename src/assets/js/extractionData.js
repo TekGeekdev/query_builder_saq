@@ -1,8 +1,7 @@
-export default async function queryBuilder(query) {
+export default async function extractionData(query) {
   const response = await fetch('https://catalog-service.adobe.io/graphql', {
     method: 'POST',
     headers: {
-      'Content-type': 'application/json',
       'Content-type': 'application/json',
       'x-api-key': import.meta.env.VITE_API_KEY,
       'magento-customer-group': import.meta.env.VITE_MAGENTO_CUSTOMER_GROUP,
@@ -15,7 +14,7 @@ export default async function queryBuilder(query) {
       query,
       variables: {
         phrase: '',
-        pageSize: 100,
+        pageSize: 10,
         currentPage: 1,
         filter: [
           {
@@ -39,4 +38,7 @@ export default async function queryBuilder(query) {
       },
     }),
   });
+
+  const data = await response.json();
+  return data;
 }
