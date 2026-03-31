@@ -1,4 +1,4 @@
-export default function queryBuilder(productFields) {
+export default function queryBuilder(productFields, productViewFields) {
   return `
 query productSearch(
   $phrase: String!
@@ -20,6 +20,13 @@ query productSearch(
     items {
       product {
         ${productFields.join(' ')}
+      }
+      ${
+        !productViewFields.length
+          ? ''
+          : `productView {
+        ${productViewFields.join(' ')}
+      }`
       }
     }
     page_info {

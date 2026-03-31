@@ -2,6 +2,7 @@ import '../../style.css';
 import getProductChecked from './getProductChecked';
 import queryBuilder from './queryBuilder';
 import extractionData from './extractionData';
+import getProductViewChecked from './getProductViewChecked';
 
 const form = document.getElementById('queryForm');
 
@@ -14,15 +15,22 @@ async function handleSubmit(event) {
     '[data-group="product"]:checked',
   );
 
+  const productViewSelected = document.querySelectorAll(
+    '[data-group="productView"]:checked',
+  );
+
   const arrayProducts = getProductChecked(productSelected);
   if (!arrayProducts.length) {
     arrayProducts.push('sku', 'name');
   }
 
-  const query = queryBuilder(arrayProducts);
+  const arrayProductsView = getProductViewChecked(productViewSelected);
+
+  const query = queryBuilder(arrayProducts, arrayProductsView);
   const data = await extractionData(query);
 
   console.log('test function get', arrayProducts);
   console.log('test query', query);
   console.log('test data', data);
+  console.log('test data2', data.data.productSearch.items[0]);
 }
