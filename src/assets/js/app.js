@@ -1,8 +1,9 @@
 import '../../style.css';
 import getProductChecked from './getProductChecked';
 import queryBuilder from './queryBuilder';
-import extractionData from './extractionData';
+
 import getProductViewChecked from './getProductViewChecked';
+import fetchAll from './fetchAll';
 
 const form = document.getElementById('queryForm');
 
@@ -27,7 +28,7 @@ async function handleSubmit(event) {
   const arrayProductsView = getProductViewChecked(productViewSelected);
 
   const query = queryBuilder(arrayProducts, arrayProductsView);
-  const data = await extractionData(query);
+  const data = await fetchAll(query);
 
   console.log('test function get', arrayProducts);
   console.log('test query', query);

@@ -1,4 +1,4 @@
-export default async function extractionData(query) {
+export default async function extractionData(query, currentPage = 1) {
   const response = await fetch('https://catalog-service.adobe.io/graphql', {
     method: 'POST',
     headers: {
@@ -14,8 +14,8 @@ export default async function extractionData(query) {
       query,
       variables: {
         phrase: '',
-        pageSize: 10,
-        currentPage: 1,
+        pageSize: 100,
+        currentPage: currentPage,
         filter: [
           {
             attribute: 'categoryPath',
