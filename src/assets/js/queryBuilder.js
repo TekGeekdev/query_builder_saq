@@ -1,4 +1,13 @@
-export default function queryBuilder(productFields, productViewFields) {
+export default function queryBuilder(productFields, productViewFields = []) {
+  const productBlock = productFields.join('\n        ');
+
+  const productViewBlock = productViewFields.length
+    ? `
+      productView {
+        ${productViewFields.join('\n        ')}
+      }`
+    : '';
+
   return `
 query productSearch(
   $phrase: String!
@@ -19,15 +28,8 @@ query productSearch(
     total_count
     items {
       product {
-        ${productFields.join(' ')}
-      }
-      ${
-        !productViewFields.length
-          ? ''
-          : `productView {
-        ${productViewFields.join(' ')}
-      }`
-      }
+        ${productBlock}
+      }${productViewBlock}
     }
     page_info {
       current_page

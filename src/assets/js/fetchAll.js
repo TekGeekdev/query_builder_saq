@@ -1,30 +1,78 @@
-import extractionData from './extractionData';
+import extractionData from './extractionData.js';
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export default async function fetchAll(query) {
-  const firstCall = await extractionData(query);
+export default async function fetchAll(query, filters = []) {
+  const firstCall = await extractionData(query, 1, filters);
+  console.log('Applied filters:', filters);
+  console.log(
+    'First call total_count:',
+    firstCall?.data?.productSearch?.total_count,
+  );
+  console.log(
+    'First call total_pages:',
+    firstCall?.data?.productSearch?.page_info?.total_pages,
+  );
 
-  const fullDatas = [...firstCall.data.productSearch.items];
-
-  let currentPage = firstCall.data.productSearch.page_info.current_page;
-  const totalPage = firstCall.data.productSearch.page_info.total_pages;
-  console.log('log current page test', currentPage);
-  console.log('log current page total', totalPage);
-
-  while (currentPage <= totalPage) {
-    const fetchOneTime = await extractionData(query, currentPage);
-
-    fullDatas.push(...fetchOneTime.data.productSearch.items);
-
-    console.log('download in progress : ', (currentPage / totalPage) * 100);
-
-    currentPage++;
-
-    await delay(500);
+  if (!firstCall?.data?.productSearch) {
+    throw new Error('Invalid first response');
   }
 
-  return fullDatas;
+  const fullData = [...firstCall.data.productSearch.items];
+
+  let currentPage = firstCall.data.productSearch.page_info.current_page + 1;
+  const totalPages = firstCall.data.productSearch.page_info.total_pages;
+
+  console.log('Starting pagination...');
+  console.log('Current page:', currentPage);
+  console.log('Total pages:', totalPages);
+
+  while (currentPage <= totalPages) {
+    let retryCount = 0;
+    let success = false;
+
+    while (!success && retryCount < 5) {
+      try {
+        const nextPageData = await extractionData(query, currentPage, filters);
+
+        if (!nextPageData?.data?.productSearch) {
+          throw new Error(`Invalid response on page ${currentPage}`);
+        }
+
+        fullData.push(...nextPageData.data.productSearch.items);
+
+        console.log(
+          'Download progress:',
+          ((currentPage / totalPages) * 100).toFixed(2) + '%',
+        );
+
+        success = true;
+        currentPage++;
+
+        await delay(500);
+      } catch (error) {
+        retryCount++;
+
+        console.error(
+          `Error on page ${currentPage}, attempt ${retryCount}/5:`,
+          error.message,
+        );
+
+        if (retryCount < 5) {
+          console.log(
+            `Retrying page ${currentPage} in ${retryCount * 3} seconds...`,
+          );
+          await delay(retryCount * 3000);
+        } else {
+          throw new Error(`Failed to fetch page ${currentPage}`);
+        }
+      }
+    }
+  }
+
+  console.log('All data successfully fetched');
+
+  return fullData;
 }
