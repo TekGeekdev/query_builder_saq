@@ -1,0 +1,33 @@
+export const directCountries = [
+  'Italy',
+  'Canada',
+  'Spain',
+  'United Kingdom',
+  'Portugal',
+  'Australia',
+  'South Africa',
+  'Chile',
+  'Argentina',
+  'Mexico',
+  'Austria',
+  'Japan',
+  'Greece',
+  'Germany',
+  'New Zealand',
+];
+
+export const franceRegions = [
+  'Bordeaux',
+  'Bourgogne',
+  'Vallée du Rhône',
+  'Vallée de la Loire',
+  'Alsace',
+  'Beaujolais',
+  'Champagne',
+  'Languedoc-Roussillon',
+  'Sud-Ouest',
+  'Provence',
+  'Jura',
+  'Poitou-Charentes',
+  'Côte Méditerranéenne',
+];

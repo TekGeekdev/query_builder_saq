@@ -1,30 +1,11 @@
 import '../../style.css';
 import getSelectedFields from './getSelectedFields.js';
 import queryBuilder from './queryBuilder.js';
-import fetchAll from './fetchAll.js';
+import fetchCatalogByCountry from './fetchCatalogByCountry.js';
 
 const form = document.getElementById('queryForm');
 
 form.addEventListener('submit', handleSubmit);
-
-const filters = [
-  {
-    attribute: 'categoryPath',
-    eq: 'products',
-  },
-  {
-    attribute: 'visibility',
-    in: ['Catalog', 'Catalog, Search'],
-  },
-  {
-    attribute: 'pays_origine',
-    eq: 'France',
-  },
-  {
-    attribute: 'categories',
-    in: ['vin'],
-  },
-];
 
 async function handleSubmit(event) {
   event.preventDefault();
@@ -46,7 +27,7 @@ async function handleSubmit(event) {
     }
 
     const query = queryBuilder(productFields, productViewFields);
-    const data = await fetchAll(query, filters);
+    const data = await fetchCatalogByCountry(query);
 
     console.log('Selected product fields:', productFields);
     console.log('Selected productView fields:', productViewFields);

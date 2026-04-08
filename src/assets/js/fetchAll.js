@@ -6,6 +6,7 @@ function delay(ms) {
 
 export default async function fetchAll(query, filters = []) {
   const firstCall = await extractionData(query, 1, filters);
+
   console.log('Applied filters:', filters);
   console.log(
     'First call total_count:',
@@ -20,10 +21,16 @@ export default async function fetchAll(query, filters = []) {
     throw new Error('Invalid first response');
   }
 
-  const fullData = [...firstCall.data.productSearch.items];
+  const productSearch = firstCall.data.productSearch;
+  const fullData = [...productSearch.items];
 
-  let currentPage = firstCall.data.productSearch.page_info.current_page + 1;
-  const totalPages = firstCall.data.productSearch.page_info.total_pages;
+  let currentPage = productSearch.page_info.current_page + 1;
+  const totalPages = productSearch.page_info.total_pages;
+
+  if (totalPages === 0) {
+    console.log('No items found for these filters.');
+    return [];
+  }
 
   console.log('Starting pagination...');
   console.log('Current page:', currentPage);
