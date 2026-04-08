@@ -1,5 +1,5 @@
 import '../../style.css';
-import getProductChecked from './getProductChecked.js';
+import getSelectedFields from './getSelectedFields.js';
 import queryBuilder from './queryBuilder.js';
 import fetchAll from './fetchAll.js';
 
@@ -38,8 +38,8 @@ async function handleSubmit(event) {
       '.query-field[data-group="productView"]:checked',
     );
 
-    const productFields = getProductChecked(productSelected);
-    const productViewFields = getProductChecked(productViewSelected);
+    const productFields = getSelectedFields(productSelected);
+    const productViewFields = getSelectedFields(productViewSelected);
 
     if (!productFields.length) {
       productFields.push('sku', 'name');
