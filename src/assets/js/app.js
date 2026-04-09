@@ -2,6 +2,7 @@ import '../../style.css';
 import getSelectedFields from './getSelectedFields.js';
 import queryBuilder from './queryBuilder.js';
 import fetchCatalogByCountry from './fetchCatalogByCountry.js';
+import normalizeProductUrls from './normalizeProductUrls.js';
 
 const form = document.getElementById('queryForm');
 
@@ -29,10 +30,12 @@ async function handleSubmit(event) {
     const query = queryBuilder(productFields, productViewFields);
     const data = await fetchCatalogByCountry(query);
 
+    const cleanedItems = data.map((el) => normalizeProductUrls(el));
+
     console.log('Selected product fields:', productFields);
     console.log('Selected productView fields:', productViewFields);
     console.log('Generated query:', query);
-    console.log('Fetched items:', data);
+    console.log('Fetched items:', cleanedItems);
   } catch (error) {
     console.error('Error in handleSubmit:', error.message);
   }
